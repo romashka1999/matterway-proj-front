@@ -30,7 +30,7 @@ const Main: React.FC = () => {
     console.log(`genre`, genre);
     if (genre !== undefined) {
       setLoading(true);
-      setBestBook("");
+      setBestBook(undefined);
       getBestBookFromGenre(genre)
         .then((res: any) => setBestBook(res.data))
         .catch((err) => console.log("err :>> ", err))
