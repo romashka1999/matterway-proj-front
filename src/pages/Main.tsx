@@ -1,5 +1,9 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {
+  getAllGenres,
+  getBestBookFromGenre,
+  getCheckoutPage,
+} from "../api/api-service";
 
 import Search from "../components/Search";
 
@@ -16,8 +20,7 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`http://localhost:5000/api/get-all-genres`)
+    getAllGenres()
       .then((res: any) => setGenres(res.data))
       .catch((err) => console.log("err :>> ", err))
       .finally(() => setLoading(false));
@@ -26,10 +29,9 @@ const Main: React.FC = () => {
   useEffect(() => {
     console.log(`genre`, genre);
     if (genre !== undefined) {
-      setBestBook("");
       setLoading(true);
-      axios
-        .get(`http://localhost:5000/api/get-best-book/${genre}`)
+      setBestBook("");
+      getBestBookFromGenre(genre)
         .then((res: any) => setBestBook(res.data))
         .catch((err) => console.log("err :>> ", err))
         .finally(() => setLoading(false));
@@ -40,8 +42,7 @@ const Main: React.FC = () => {
     console.log(`bestBook`, bestBook);
     if (bestBook !== undefined) {
       setLoading(true);
-      axios
-        .get(`http://localhost:5000/api/get-checkout-screen/${bestBook}`)
+      getCheckoutPage(bestBook)
         .then((res: any) => {
           const bufferData = res.data.data;
           setCheckoutImagePath(
@@ -66,7 +67,7 @@ const Main: React.FC = () => {
         </p>
       )}
       {checkoutImagePath && (
-        <img src={checkoutImagePath} width={400} height={400} />
+        <img src={checkoutImagePath} width={600} height={600} />
       )}
     </div>
   );
